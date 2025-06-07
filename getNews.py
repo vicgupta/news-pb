@@ -1,4 +1,5 @@
 import os
+import schedule
 import datetime as dt
 from pocketbaseorm import PocketbaseORM
 from dotenv import load_dotenv
@@ -24,28 +25,37 @@ def fetch_news(query):
         print(f"Error fetching news: {response.status_code}")
         return None
 
-keywords = get_all_keywords()
-for keyword in keywords:
-    print(f"Fetching news for keyword: {keyword}")
-    current_news = fetch_news(keyword)
-    if current_news and "results" in current_news:
-        for item in current_news["results"]:
-            if 'publishedDate' in item:
-                published_date = dt.datetime.fromisoformat(item['publishedDate'].replace("Z", "+00:00"))
-            else:
-                published_date = dt.date.today()
-            data = {
-                "keyword": keyword,
-                "title": item["title"],
-                "content": item["content"],
-                "url": item["url"],
-                "date": published_date.strftime('%Y-%m-%d'),
-            }
-            response = pb_news.add_item(data)
-            if response == "Error":
-                pass
-                # print(f"Error adding item: {item['title']}")
-            else:
-                print(f"Added item: {item['title']} on {published_date.strftime('%Y-%m-%d')}")
-    else:
-        print(f"No news found for keyword: {keyword}")
+def get_post_news():
+    
+    keywords = get_all_keywords()
+    for keyword in keywords:
+        print(f"Fetching news for keyword: {keyword}")
+        current_news = fetch_news(keyword)
+        if current_news and "results" in current_news:
+            for item in current_news["results"]:
+                if 'publishedDate' in item:
+                    published_date = dt.datetime.fromisoformat(item['publishedDate'].replace("Z", "+00:00"))
+                else:
+                    published_date = dt.date.today()
+                data = {
+                    "keyword": keyword,
+                    "title": item["title"],
+                    "content": item["content"],
+                    "url": item["url"],
+                    "date": published_date.strftime('%Y-%m-%d'),
+                }
+                response = pb_news.add_item(data)
+                if response == "Error":
+                    pass
+                    # print(f"Error adding item: {item['title']}")
+                else:
+                    print(f"Added item: {item['title']} on {published_date.strftime('%Y-%m-%d')}")
+        else:
+            print(f"No news found for keyword: {keyword}")
+
+#schedule.every().day.at("05:00").do(getNews)
+while True:
+	#schedule.run_pending()
+    get_post_news()
+    time.sleep(60 * 15)
+    
