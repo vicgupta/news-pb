@@ -11,3 +11,5 @@ def delete_all_news():
     for item in results:
         pb_news.delete_id(item.id)
     print("All news items deleted.")
+
+delete_all_news()
