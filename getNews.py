@@ -18,7 +18,7 @@ def get_all_keywords():
 
 def fetch_news(query):
     import requests
-    url = f"https://searxng.hiblazar.com/search?q={query}&format=json&timerange=1d&categories=news&lang=en"
+    url = f"{os.getenv("SEARCH_URL"}/search?q={query}&format=json&timerange=1d&categories=news&lang=en"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
