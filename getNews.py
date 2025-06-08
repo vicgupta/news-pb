@@ -1,7 +1,7 @@
 import os
 import schedule
-import datetime as dt
 import time
+import datetime as dt
 from pocketbaseorm import PocketbaseORM
 from dotenv import load_dotenv
 load_dotenv()
@@ -58,5 +58,6 @@ def get_post_news():
 while True:
 	#schedule.run_pending()
     get_post_news()
+    print ("Sleeping for 15 mins...")
     time.sleep(60 * 15)
     
