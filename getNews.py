@@ -60,5 +60,5 @@ while True:
 	#schedule.run_pending()
     get_post_news()
     print ("Sleeping for 15 mins...")
-    time.sleep(60 * 15)
+    time.sleep(60 * 30)
     
