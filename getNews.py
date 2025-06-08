@@ -56,6 +56,7 @@ def get_post_news():
 
 #schedule.every().day.at("05:00").do(getNews)
 while True:
+    print (f"Running at {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 	#schedule.run_pending()
     get_post_news()
     print ("Sleeping for 15 mins...")
